@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technology Cost Review — WordPress VIP</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    color: #13191E;
+    background: #F4F1EC;
+    line-height: 1.5;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 0 80px;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: #13191E;
+    padding: 20px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo-lockup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.2px;
+    line-height: 1.2;
+  }
+  .logo-text span {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    color: #D8A45F;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .header-tag {
+    font-size: 11px;
+    color: #6b7a85;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: #13191E;
+    padding: 48px 36px 44px;
+    border-bottom: 3px solid #D8A45F;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 280px;
+    background-image:
+      linear-gradient(rgba(216,164,95,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(216,164,95,0.08) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .hero-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #D8A45F;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.8px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    max-width: 520px;
+  }
+  .hero p {
+    font-size: 14px;
+    color: #8899aa;
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  /* ── Customer info ── */
+  .customer-section {
+    background: #fff;
+    border-bottom: 1px solid #e8e4de;
+    padding: 28px 36px;
+  }
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #9A6014;
+    margin-bottom: 16px;
+  }
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+  .field-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: #6b7a85;
+    margin-bottom: 5px;
+  }
+  .field-group input,
+  .field-group select {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 13px;
+    color: #13191E;
+    background: #fafaf8;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field-group input:focus,
+  .field-group select:focus {
+    border-color: #D8A45F;
+    box-shadow: 0 0 0 3px rgba(216,164,95,0.15);
+    background: #fff;
+  }
+  .field-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7a85' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+  }
+
+  /* ── Summary bar ── */
+  .summary-bar {
+    background: #13191E;
+    padding: 20px 36px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .summary-item {
+    padding: 0 20px 0 0;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .summary-item:first-child { padding-left: 0; }
+  .summary-item:last-child { border-right: none; }
+  .summary-item + .summary-item { padding-left: 20px; }
+  .summary-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: #6b7a85;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
+  }
+  .summary-val {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+  .summary-val.gold { color: #D8A45F; }
+  .summary-val.small {
+    font-size: 13px;
+    font-weight: 500;
+    padding-top: 4px;
+    line-height: 1.3;
+  }
+
+  /* ── Content area ── */
+  .content { padding: 28px 36px 0; }
+
+  .intro-note {
+    font-size: 13px;
+    color: #6b7a85;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: #fff;
+    border-left: 3px solid #D8A45F;
+    border-radius: 0 5px 5px 0;
+  }
+
+  /* ── Cost sections ── */
+  .cost-section {
+    background: #fff;
+    border: 1px solid #e8e4de;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .cost-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.12s;
+  }
+  .cost-section-header:hover { background: #fafaf8; }
+  .cost-section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cat-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .cat-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #13191E;
+  }
+  .cat-count {
+    font-size: 11px;
+    color: #9A6014;
+    background: #FDF3E7;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .cost-section-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .cat-subtotal {
+    font-size: 14px;
+    font-weight: 600;
+    color: #13191E;
+    min-width: 90px;
+    text-align: right;
+  }
+  .chev {
+    width: 16px;
+    height: 16px;
+    color: #aaa;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .chev.open { transform: rotate(180deg); }
+
+  .cost-section-body {
+    display: none;
+    border-top: 1px solid #f0ede8;
+  }
+  .cost-section-body.open { display: block; }
+
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  col.c-item { width: 36%; }
+  col.c-desc { width: 37%; }
+  col.c-amt  { width: 27%; }
+
+  thead th {
+    font-size: 10px;
+    font-weight: 600;
+    color: #9b9b9b;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 9px 20px;
+    text-align: left;
+    background: #fafaf8;
+    border-bottom: 1px solid #f0ede8;
+  }
+  thead th.r { text-align: right; }
+
+  tbody tr { border-bottom: 1px solid #f7f4f0; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #fdfcfa; }
+
+  td {
+    padding: 9px 20px;
+    font-size: 13px;
+    color: #13191E;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  td.t-desc {
+    color: #6b7a85;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  td.t-input { text-align: right; }
+  td.t-input input {
+    width: 100%;
+    text-align: right;
+    border: 1px solid #e0ddd8;
+    border-radius: 5px;
+    padding: 6px 9px;
+    font-size: 13px;
+    color: #13191E;
+    background: #fff;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  td.t-input input:focus {
+    border-color: #D8A45F;
+    box-shadow: 0 0 0 3px rgba(216,164,95,0.15);
+  }
+  td.t-input input::placeholder { color: #c5c0b8; }
+
+  .cat-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #fafaf8;
+    border-top: 1px solid #f0ede8;
+    font-size: 12px;
+    color: #6b7a85;
+  }
+  .cat-footer strong {
+    font-size: 13px;
+    font-weight: 600;
+    color: #13191E;
+  }
+
+  /* ── Submit area ── */
+  .submit-area {
+    background: #13191E;
+    border-radius: 8px;
+    padding: 28px 28px 28px;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .submit-grid-bg {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 200px;
+    background-image:
+      linear-gradient(rgba(216,164,95,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(216,164,95,0.07) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .submit-area h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+    position: relative;
+  }
+  .submit-area p {
+    font-size: 13px;
+    color: #8899aa;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    max-width: 480px;
+    position: relative;
+  }
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .btn {
+    padding: 11px 22px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    letter-spacing: 0.1px;
+  }
+  .btn-gold {
+    background: #D8A45F;
+    color: #13191E;
+  }
+  .btn-gold:hover { background: #c99450; }
+  .btn-ghost {
+    background: rgba(255,255,255,0.08);
+    color: #ccc;
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.13); }
+
+  .confirm-msg {
+    display: none;
+    background: rgba(216,164,95,0.12);
+    border: 1px solid rgba(216,164,95,0.3);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #D8A45F;
+    margin-top: 16px;
+    line-height: 1.5;
+    position: relative;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    text-align: center;
+    padding: 32px 36px 0;
+    font-size: 11px;
+    color: #aaa;
+    line-height: 1.7;
+  }
+  .site-footer a { color: #9A6014; text-decoration: none; }
+
+  /* ── Print ── */
+  @media print {
+    body { background: #fff; }
+    .site-header, .hero, .summary-bar, .submit-area {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .btn-row, .submit-area .btn-row { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="site-header">
+    <img src="data:image/png;base64,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" alt="WordPress VIP + Parse.ly" style="height:32px;display:block;" />
+    <div class="header-tag">Confidential — for planning purposes only</div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-eyebrow">TCO Assessment</div>
+    <h1>What does your technology stack cost today?</h1>
+    <p>Fill in your current annual spend across each category. Leave any field blank if it doesn't apply — the totals update as you go. When you're ready, send your responses to our team and we'll come back with a personalised analysis.</p>
+  </div>
+
+  <!-- Contact info -->
+  <div class="customer-section">
+    <div class="section-label">Your details</div>
+    <div class="field-grid">
+      <div class="field-group">
+        <label>Your name</label>
+        <input type="text" id="contact-name" placeholder="e.g. Jane Smith" />
+      </div>
+      <div class="field-group">
+        <label>Organisation</label>
+        <input type="text" id="contact-org" placeholder="e.g. Acme Media Ltd" />
+      </div>
+      <div class="field-group">
+        <label>Your email</label>
+        <input type="email" id="contact-email" placeholder="e.g. jane@acmemedia.com" />
+      </div>
+      <div class="field-group">
+        <label>Industry / sector</label>
+        <select id="contact-industry">
+          <option value="">Select sector</option>
+          <option>Media &amp; Publishing</option>
+          <option>News &amp; Journalism</option>
+          <option>B2B Publishing</option>
+          <option>E-commerce &amp; Retail</option>
+          <option>Financial Services</option>
+          <option>Higher Education</option>
+          <option>Government &amp; Public Sector</option>
+          <option>Non-profit</option>
+          <option>Technology</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Annual revenue (approx.)</label>
+        <select id="contact-revenue">
+          <option value="">Select range</option>
+          <option>Under £1M</option>
+          <option>£1M – £5M</option>
+          <option>£5M – £20M</option>
+          <option>£20M – £50M</option>
+          <option>£50M – £100M</option>
+          <option>Over £100M</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Currency</label>
+        <select id="currency" onchange="updateAll()">
+          <option value="£">£ GBP</option>
+          <option value="$">$ USD</option>
+          <option value="€">€ EUR</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary bar -->
+  <div class="summary-bar">
+    <div class="summary-item">
+      <div class="summary-label">Annual spend</div>
+      <div class="summary-val" id="kpi-total">—</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-label">3-year projection</div>
+      <div class="summary-val gold" id="kpi-3yr">—</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-label">Largest category</div>
+      <div class="summary-val small" id="kpi-biggest">—</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-label">Categories with spend</div>
+      <div class="summary-val gold" id="kpi-filled">0 / 6</div>
+    </div>
+  </div>
+
+  <!-- Cost sections -->
+  <div class="content">
+
+    <p class="intro-note">Enter annual figures in each category. All fields are optional — fill in what you know and the totals will update automatically.</p>
+
+    <div id="sections-container"></div>
+
+    <!-- Submit -->
+    <div class="submit-area">
+      <div class="submit-grid-bg"></div>
+      <h3>Ready to send your responses?</h3>
+      <p>Once you've filled in as much as you know, click below to send your figures to our team. We'll review them and come back with a tailored cost analysis and recommendations — typically within 2 business days.</p>
+      <div class="btn-row">
+        <button class="btn btn-gold" onclick="sendEmail()">Send to WordPress VIP</button>
+        <button class="btn btn-ghost" onclick="window.print()">Print / save as PDF</button>
+        <button class="btn btn-ghost" onclick="clearAll()">Clear all figures</button>
+      </div>
+      <div class="confirm-msg" id="confirm-msg">
+        Your email client has opened with your completed TCO responses pre-filled and addressed to our team. Just review and hit send — we'll be in touch within 2 business days.
+      </div>
+    </div>
+
+    <div class="site-footer">
+      <p>WordPress VIP &nbsp;·&nbsp; Confidential and for planning purposes only &nbsp;·&nbsp; <a href="https://wpvip.com">wpvip.com</a></p>
+      <p style="margin-top:4px">Responses are sent directly to your WordPress VIP contact and are not stored by this form.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const SECTIONS = [
+  {
+    id: 'software',
+    name: 'Software & subscriptions',
+    color: '#3858E9',
+    rows: [
+      { label: 'CMS / web publishing platform', desc: 'e.g. WordPress, Sitecore, Contentful, Arc XP' },
+      { label: 'CRM / customer management', desc: 'e.g. Salesforce, HubSpot, Microsoft Dynamics' },
+      { label: 'ERP / finance & back-office', desc: 'e.g. SAP, Oracle, Sage, Xero, QuickBooks' },
+      { label: 'Email & marketing automation', desc: 'e.g. Mailchimp, Marketo, Klaviyo, Dotdigital' },
+      { label: 'Analytics & business intelligence', desc: 'e.g. GA4, Chartbeat, Tableau, Power BI, Looker' },
+      { label: 'Collaboration & productivity suite', desc: 'e.g. Microsoft 365, Google Workspace, Slack' },
+      { label: 'Subscription / paywall platform', desc: 'e.g. Piano, Zuora, Chargebee, Memberful' },
+      { label: 'Search & personalisation tools', desc: 'e.g. Elasticsearch, Algolia, Recombee' },
+      { label: 'Other SaaS tools & platforms', desc: 'Any additional software not listed above' },
+    ]
+  },
+  {
+    id: 'data',
+    name: 'Data & content assets',
+    color: '#70AC1C',
+    rows: [
+      { label: 'Audience & market data subscriptions', desc: 'e.g. Nielsen, BRAD, TGI, Ipsos, ABC' },
+      { label: 'Stock imagery & video licensing', desc: 'e.g. Getty, Shutterstock, AP Images, iStock' },
+      { label: 'News & wire service feeds', desc: 'e.g. PA Media, Reuters, Bloomberg, AFP' },
+      { label: 'Data enrichment & third-party APIs', desc: 'Connectors, enrichment services, data feeds' },
+      { label: 'Data storage & long-term archiving', desc: 'Cloud or physical archive and backup storage' },
+    ]
+  },
+  {
+    id: 'infra',
+    name: 'Infrastructure & hosting',
+    color: '#9A6014',
+    rows: [
+      { label: 'Web hosting / cloud platform', desc: 'AWS, Azure, GCP, WordPress VIP, managed hosting' },
+      { label: 'CDN & video streaming', desc: 'Cloudflare, Fastly, Brightcove, JW Player, Mux' },
+      { label: 'Email delivery infrastructure', desc: 'SendGrid, Amazon SES, Mailgun, Postmark' },
+      { label: 'Databases & managed storage', desc: 'RDS, MongoDB Atlas, Elasticsearch, Redis' },
+      { label: 'Disaster recovery & backups', desc: 'BDR services, off-site backup, failover' },
+      { label: 'Network & connectivity', desc: 'Office internet, leased lines, SD-WAN, VPN' },
+    ]
+  },
+  {
+    id: 'agency',
+    name: 'Agency & outsourced services',
+    color: '#D8A45F',
+    rows: [
+      { label: 'Web & digital development agency', desc: 'Ongoing retainer or project-based development' },
+      { label: 'SEO & content production agency', desc: 'External SEO, content creation, copywriting' },
+      { label: 'Paid media management', desc: 'PPC, social ads, programmatic management fees' },
+      { label: 'IT support / managed service provider', desc: 'Outsourced helpdesk, MSP, NOC services' },
+      { label: 'Freelancers & contract resource', desc: 'Ad-hoc technical, editorial, or creative resource' },
+      { label: 'Compliance, legal & audit (tech)', desc: 'GDPR tooling, contracts, security audits, pen tests' },
+    ]
+  },
+  {
+    id: 'people',
+    name: 'Internal people costs',
+    color: '#888780',
+    rows: [
+      { label: 'Technology / IT headcount', desc: 'Total annual salary cost for in-house tech staff' },
+      { label: 'Digital & marketing team', desc: 'Annual salary cost for digital-focused roles' },
+      { label: 'Training & professional development', desc: 'Courses, certifications, conferences' },
+      { label: 'Recruitment & onboarding (tech)', desc: 'Hiring costs: agency fees, advertising, onboarding' },
+    ]
+  },
+  {
+    id: 'other',
+    name: 'Hardware & other costs',
+    color: '#13191E',
+    rows: [
+      { label: 'Hardware & end-user devices', desc: 'Laptops, phones, tablets (amortised annual cost)' },
+      { label: 'Cybersecurity tooling', desc: 'Antivirus, EDR, MFA, WAF, SOC, pen-testing' },
+      { label: 'Telephony & mobile', desc: 'Office phones, mobile contracts, video conferencing' },
+      { label: 'Print production technology', desc: 'Pre-press, pagination, print management systems' },
+      { label: 'Other / uncategorised spend', desc: 'Anything not covered in the categories above' },
+    ]
+  },
+];
+
+const state = {};
+SECTIONS.forEach(s => s.rows.forEach((r, i) => { state[s.id + '_' + i] = ''; }));
+
+function sym() { return document.getElementById('currency').value; }
+
+function fmt(n) {
+  if (n === 0) return sym() + '0';
+  return sym() + Math.round(n).toLocaleString('en-GB');
+}
+
+function parse(v) {
+  const n = parseFloat(String(v).replace(/[^0-9.]/g, ''));
+  return isNaN(n) ? 0 : n;
+}
+
+function sectionTotal(s) {
+  return s.rows.reduce((sum, r, i) => sum + parse(state[s.id + '_' + i]), 0);
+}
+
+function updateAll() {
+  let grand = 0, bigLabel = '—', bigVal = 0, filled = 0;
+  SECTIONS.forEach(s => {
+    const t = sectionTotal(s);
+    grand += t;
+    if (t > bigVal) { bigVal = t; bigLabel = s.name; }
+    if (t > 0) filled++;
+    const subEl = document.getElementById('sub_' + s.id);
+    const footEl = document.getElementById('foot_' + s.id);
+    if (subEl) subEl.textContent = t > 0 ? fmt(t) : '';
+    if (footEl) footEl.textContent = t > 0 ? fmt(t) : '—';
+    s.rows.forEach((r, i) => {
+      const inp = document.getElementById('inp_' + s.id + '_' + i);
+      if (inp) inp.placeholder = sym() + '0';
+    });
+  });
+  document.getElementById('kpi-total').textContent = grand > 0 ? fmt(grand) : '—';
+  document.getElementById('kpi-3yr').textContent = grand > 0 ? fmt(grand * 3) : '—';
+  document.getElementById('kpi-biggest').textContent = bigVal > 0 ? bigLabel : '—';
+  document.getElementById('kpi-filled').textContent = filled + ' / 6';
+}
+
+function toggleSection(id) {
+  const body = document.getElementById('body_' + id);
+  const chev = document.getElementById('chev_' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+
+function buildSections() {
+  const container = document.getElementById('sections-container');
+  SECTIONS.forEach((s, si) => {
+    const div = document.createElement('div');
+    div.className = 'cost-section';
+
+    const rows = s.rows.map((r, i) => `
+      <tr>
+        <td>${r.label}</td>
+        <td class="t-desc" title="${r.desc}">${r.desc}</td>
+        <td class="t-input">
+          <input type="text" id="inp_${s.id}_${i}" placeholder="${sym()}0"
+            oninput="state['${s.id}_${i}']=this.value;updateAll()"
+            value="${state[s.id + '_' + i]}" />
+        </td>
+      </tr>`).join('');
+
+    div.innerHTML = `
+      <div class="cost-section-header" onclick="toggleSection('${s.id}')">
+        <div class="cost-section-title">
+          <span class="cat-dot" style="background:${s.color}"></span>
+          <span class="cat-name">${s.name}</span>
+          <span class="cat-count">${s.rows.length} items</span>
+        </div>
+        <div class="cost-section-right">
+          <span class="cat-subtotal" id="sub_${s.id}"></span>
+          <svg class="chev ${si === 0 ? 'open' : ''}" id="chev_${s.id}" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="cost-section-body ${si === 0 ? 'open' : ''}" id="body_${s.id}">
+        <table>
+          <colgroup><col class="c-item"><col class="c-desc"><col class="c-amt"></colgroup>
+          <thead>
+            <tr>
+              <th>Cost item</th>
+              <th>Examples / notes</th>
+              <th class="r">Annual cost</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <div class="cat-footer">
+          <span>Subtotal — ${s.name}</span>
+          <strong id="foot_${s.id}">—</strong>
+        </div>
+      </div>`;
+
+    container.appendChild(div);
+  });
+}
+
+function clearAll() {
+  if (!confirm('Clear all figures? This cannot be undone.')) return;
+  SECTIONS.forEach(s => s.rows.forEach((r, i) => {
+    state[s.id + '_' + i] = '';
+    const el = document.getElementById('inp_' + s.id + '_' + i);
+    if (el) el.value = '';
+  }));
+  updateAll();
+}
+
+function buildEmailBody() {
+  const name     = document.getElementById('contact-name').value    || 'Not provided';
+  const org      = document.getElementById('contact-org').value     || 'Not provided';
+  const email    = document.getElementById('contact-email').value   || 'Not provided';
+  const industry = document.getElementById('contact-industry').value|| 'Not provided';
+  const revenue  = document.getElementById('contact-revenue').value || 'Not provided';
+
+  let grand = 0;
+  const lines = [];
+  lines.push('TECHNOLOGY COST REVIEW — WORDPRESS VIP');
+  lines.push('========================================');
+  lines.push('');
+  lines.push('CONTACT DETAILS');
+  lines.push('---------------');
+  lines.push('Name:            ' + name);
+  lines.push('Organisation:    ' + org);
+  lines.push('Email:           ' + email);
+  lines.push('Industry:        ' + industry);
+  lines.push('Annual revenue:  ' + revenue);
+  lines.push('');
+  lines.push('COST BREAKDOWN (all figures annual)');
+  lines.push('------------------------------------');
+
+  SECTIONS.forEach(s => {
+    const items = [];
+    s.rows.forEach((r, i) => {
+      const v = parse(state[s.id + '_' + i]);
+      if (v > 0) items.push('    - ' + r.label + ': ' + sym() + v.toLocaleString('en-GB'));
+    });
+    const t = sectionTotal(s);
+    grand += t;
+    if (items.length > 0) {
+      lines.push('');
+      lines.push(s.name.toUpperCase() + '  (' + sym() + t.toLocaleString('en-GB') + ' p.a.)');
+      items.forEach(l => lines.push(l));
+    }
+  });
+
+  lines.push('');
+  lines.push('========================================');
+  lines.push('TOTAL ANNUAL TECHNOLOGY SPEND:  ' + sym() + grand.toLocaleString('en-GB'));
+  lines.push('3-YEAR PROJECTION:              ' + sym() + (grand * 3).toLocaleString('en-GB'));
+  lines.push('========================================');
+  lines.push('');
+  lines.push('Please review these figures and provide your analysis and recommendations.');
+  return lines.join('\n');
+}
+
+function sendEmail() {
+  const org = document.getElementById('contact-org').value;
+  const name = document.getElementById('contact-name').value;
+  const subject = encodeURIComponent(
+    'Technology Cost Review' +
+    (org  ? ' — ' + org   : '') +
+    (name ? ' (' + name + ')' : '')
+  );
+  const body = encodeURIComponent(buildEmailBody());
+  window.location.href = 'mailto:james.garth.hill@wpvip.com?subject=' + subject + '&body=' + body;
+  document.getElementById('confirm-msg').style.display = 'block';
+}
+
+buildSections();
+updateAll();
+</script>
+</body>
+</html>
